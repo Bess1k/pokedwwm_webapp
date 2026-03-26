@@ -16,6 +16,9 @@ h1 {
     display: none;
 }
  
+.example-wrapper{
+    height:70vh;
+}
 @media screen and (min-width: 760px) {
     .nav-dot {
         display: block;
