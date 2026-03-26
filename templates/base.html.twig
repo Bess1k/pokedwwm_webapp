@@ -12,6 +12,11 @@
         {% endblock %}
     </head>
     <body>
+        {% include 'partials/header.html.twig' %}
+
+        <main class="container mt-5">
         {% block body %}{% endblock %}
+        </main>
+        {% include 'partials/footer.html.twig' %}
     </body>
 </html>
