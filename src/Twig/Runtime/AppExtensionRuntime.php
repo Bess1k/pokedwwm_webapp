@@ -14,5 +14,6 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
     public function customCapitalize($value)
     {
         return  strtoupper($value);
+        
     }
 }
