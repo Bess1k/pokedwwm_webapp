@@ -40,7 +40,7 @@ final class BootstrapButton
         return $this->_strText;
     }
 
-     /**
+    /**
      * Retourne la classe Bootstrap
      * 
      * @return string
@@ -50,7 +50,7 @@ final class BootstrapButton
         return $this->_strType;
     }
 
-     /**
+    /**
      * Retourne le lien (URL) associé à la balise
      * 
      * @return string
@@ -61,6 +61,4 @@ final class BootstrapButton
     }
 }
 
-
-    
 

@@ -17,7 +17,7 @@ h1 {
 }
  
 .example-wrapper{
-    height:70vh;
+    height:80%;
 }
 @media screen and (min-width: 760px) {
     .nav-dot {
