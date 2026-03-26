@@ -7,7 +7,7 @@
 
 <div class="example-wrapper">
 
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Hello {{ controller_name|custom_capitalize }}! ✅</h1>
 
     <twig:BootstrapButton class="mb-2"
     text="Bootstrap est disponible!" 
@@ -15,7 +15,7 @@
 
     <twig:BootstrapButton
     text="Hello world!"
-    type="warning" link="#" />   
+    type="warning" link="#" outlined/>   
     
 </div>
 {% endblock %}
