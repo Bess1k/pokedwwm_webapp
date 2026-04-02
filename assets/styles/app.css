@@ -1,24 +1,22 @@
-app.css 
- 
- 
 footer.footer-fixed {
     position: fixed;
     bottom: 0;
     width: 100%;
 }
- 
+
 h1 {
     color: var(--bs-danger);
     text-align: center;
 }
- 
+
 .nav-dot {
     display: none;
 }
- 
-.example-wrapper{
-    height:80%;
+
+main {
+    margin: 2rem 0 6rem 0;
 }
+
 @media screen and (min-width: 760px) {
     .nav-dot {
         display: block;
@@ -30,10 +28,9 @@ h1 {
         border-radius: 50%;
         border: 3px #ffffff solid;
     }
- 
+
     nav.navbar .container {
         position: relative;
         justify-content: center;
     }
 }
- 

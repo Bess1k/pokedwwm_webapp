@@ -12,13 +12,23 @@ final class BootstrapCard
     private string $_strLink;
     private string $_strLabel;
 
+    /**
+     * Monte le composant dans le DOM
+     * 
+     * @param string $title Titre de la card
+     * @param string $img l'URL ou l'URI de la source de l'image
+     * @param string $link l'URL ou l'URI du target du lien du bouton
+     * @param string $label Texte affiché dans le bouton
+     */
     public function mount(string $title, string $img, string $link, string $label): void
     {
-        $this->_strTitle = $title;
-        $this->_strImg   = $img;
-        $this->_strLink  = $link;
-        $this->_strLabel = $label;
+        $this->_strTitle    = $title;
+        $this->_strImg      = $img;
+        $this->_strLink     = $link;
+        $this->_strLabel    = $label;
     }
+
+    // GETTERS ================================================================
 
     public function getTitle(): string
     {
@@ -40,10 +50,5 @@ final class BootstrapCard
         return $this->_strLabel;
     }
 
+
 }
-
-
-
-
-    
-
