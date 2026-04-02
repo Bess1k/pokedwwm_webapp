@@ -93,15 +93,4 @@ final class PokemonController extends AbstractController
             'createForm'    => $updateForm
         ]);
     }
-
-    #[Route('/{id<\d+>}/delete', name: 'delete')]
-        public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager): Response
-        {
-            $entityManager->remove($pokemon);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Le pokémon a bien été supprimé');
-
-            return $this->redirectToRoute('app_pokemon_index');
-        }
 }
