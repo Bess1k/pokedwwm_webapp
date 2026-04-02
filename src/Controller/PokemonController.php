@@ -49,7 +49,7 @@ final class PokemonController extends AbstractController
             ]);
         }
         
-        return $this->render('pokemon/create.html.twig', [
+        return $this->render('pokemon/form.html.twig', [
             'createForm'    => $createForm
         ]);
     }
@@ -89,8 +89,19 @@ final class PokemonController extends AbstractController
             ]);
         }
 
-        return $this->render('pokemon/create.html.twig', [
+        return $this->render('pokemon/form.html.twig', [
             'createForm'    => $updateForm
         ]);
     }
+
+    #[Route('/{id<\d+>}/delete', name: 'delete')]
+        public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager): Response
+        {
+            $entityManager->remove($pokemon);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le pokémon a bien été supprimé');
+
+            return $this->redirectToRoute('app_pokemon_index');
+        }
 }
