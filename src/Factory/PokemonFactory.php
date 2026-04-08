@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\PokemonType;
+use App\Entity\Pokemon;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
- * @extends PersistentObjectFactory<PokemonType>
+ * @extends PersistentObjectFactory<Pokemon>
  */
-final class PokemonTypeFactory extends PersistentObjectFactory
+final class PokemonFactory extends PersistentObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,7 +22,7 @@ final class PokemonTypeFactory extends PersistentObjectFactory
     #[\Override]
     public static function class(): string
     {
-        return PokemonType::class;
+        return Pokemon::class;
     }
 
     /**
@@ -34,8 +34,8 @@ final class PokemonTypeFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'color' => self::faker()->text(7),
-            'name'  => self::faker()->text(15),
+            'createdBy' => UserFactory::randomOrCreate(),
+            'name'      => self::faker()->text(160),
         ];
     }
 
@@ -46,7 +46,7 @@ final class PokemonTypeFactory extends PersistentObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(PokemonType $pokemonType): void {})
+            // ->afterInstantiate(function(Pokemon $pokemon): void {})
         ;
     }
 }
