@@ -39,6 +39,12 @@ final class UserController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $userForm->get('plainPassword')->getData();
 
+            // Dans le cas où le mot de passe n'est pas renseigné
+            if(!$plainPassword) {
+
+                $plainPassword = "default_password";
+            }
+
             // encode the plain password
             $objUser->setPassword($userPasswordHasher->hashPassword($objUser, $plainPassword));
 
@@ -72,7 +78,8 @@ final class UserController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $userForm->get('plainPassword')->getData();
 
-            if($plainPassword !== "") {
+            // Dans le cas où le mot de passe est renseigné
+            if($plainPassword) {
 
                 // encode the plain password
                 $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
@@ -94,7 +101,7 @@ final class UserController extends AbstractController
     public function updateRoles(User $user, Request $request,  
         EntityManagerInterface $entityManager): Response
     {
-        $strFormError = "";
+        $strFormError = ""; //< Pas d'erreur par défaut (chaine vide)
 
         if($request->isMethod('POST')) {
 
@@ -104,7 +111,7 @@ final class UserController extends AbstractController
             // Vérifie si le jeton est valide : attention au nom qui doit être le mêmee que dans le dans le gabarit TWIG
             if ($this->isCsrfTokenValid('user_role', $submittedToken)) {
 
-                $arrRoles = [];
+                $arrRoles = []; //< On défini un tableau de rôles vide avant la gestion des affectations
 
                 // Vérifie si la case du rôle prof est coché
                 if($request->request->get('user-role-prof')) {
@@ -120,6 +127,7 @@ final class UserController extends AbstractController
                 return $this->redirectToRoute('app_user');
             }
 
+            // En cas d'erreur de jeton CSRF, on pourra transmettre un message d'erreur à la vue TWIG
             $strFormError = "Le jeton de sécurité n'est pas valide. Réessayez ou actualisez la page";
         }
 

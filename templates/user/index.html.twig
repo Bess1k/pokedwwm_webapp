@@ -1,42 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Informations utilisateur{% endblock %}
+{% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
 
 <h1>Gestion des utilisateurs</h1>
 
-<twig:BootstrapButton type="secondary" link="{{ path('app_user') }}" text="Retour à la liste" />
+<twig:BootstrapButton type="primary" link="{{ path('app_user_create') }}" text="Créer un utilisateur" />
 
-<div class="mt-5">
-
-    <p>Modifier les rôles de {{ user.firstname }}</p>
-
-    {# Si une erreur est présente, on affiche une alerte Bootstrap #}
-    {% if formError %}
-        <div class="alert alert-danger" role="alert">{{ formError }}</div>
-    {% endif %}
-
-    {# Formulaire "manuel" pour l'affectation des rôles #}
-    <form method="POST" action="{{ path('app_user_roles', { id: user.id }) }}">
-
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" 
-                {# On vérifie si le rôle est déjà affecté à l'utilisateur ou non #}
-                {% if 'ROLE_PROF' in user.roles %} checked {% endif %}
-
-                name="user-role-prof" id="user-role-prof" />
-
-            <label class="form-check-label" for="user-role-prof">Professeur Pokémon</label>
-        </div>
-
-        {# Champ masqué pour le jeton CSRF - le nom "user_role" doit être le même que celui utilisé dans le contrôleur #}
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('user_role') }}">
-
-        <button type="submit" class=" mt-2 btn btn-danger">Enregister</button>
-
-    </form>
-
-</div>
+<table class="table table-striped mt-5">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Adresse e-mail</th>
+            <th scope="col">Rôles</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in userList %}
+        <tr>
+            <th scope="row">{{ user.id }}</th>
+            <th>{{ user.lastname }}</th>
+            <th>{{ user.firstname }}</th>
+            <th>{{ user.email }}</th>
+            <th>
+                {% for role in user.roles %}
+                    <span class="badge text-bg-info rounded-pill">{{ role }}</span>
+                {% endfor %}
+            </th>
+            <th>
+                <twig:BootstrapButton type="warning" link="{{ path('app_user_update', { id: user.id }) }}" text="Modifier" />
+                <twig:BootstrapButton type="primary" link="{{ path('app_user_roles', { id: user.id }) }}" text="Affecter des rôles" />
+            </th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
