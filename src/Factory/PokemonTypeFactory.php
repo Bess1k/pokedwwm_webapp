@@ -35,7 +35,7 @@ final class PokemonTypeFactory extends PersistentObjectFactory
     {
         return [
             'color' => self::faker()->text(7),
-            'name' => self::faker()->text(15),
+            'name'  => self::faker()->text(15),
         ];
     }
 
