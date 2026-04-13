@@ -22,12 +22,18 @@ class PokemonRepository extends ServiceEntityRepository
     {        
         // Création du QueryBuilder, SELECT * FROM pokemons as p...
         $queryBuilder = $this->createQueryBuilder('p')
-            ->orderBy('p.number', 'ASC');
+            ->orderBy('p.number', 'ASC')
 
-        $queryBuilder
             ->join('p.types', 't')          //< On a un association, créer la jointure
-            ->where('t.name = :type')            //< On utilise l'alias t dans le filtre
+            ->orWhere('t.name = :type')            //< On utilise l'alias t dans le filtre
             ->setParameter('type', $type);
+
+            if($secondary){
+                $queryBuilder->orWhere('t.name = :type2')
+                ->setParameter('type2', $secondary)
+                ->groupBy('p.id')
+                ->having('COUNT(DISTINCT(t.id) = 2');
+            }
 
         // Retourne les résultats
         return $queryBuilder->getQuery()->getResult();
