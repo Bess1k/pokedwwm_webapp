@@ -27,7 +27,7 @@ final class PokemonController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /* page number */
-            $request->query->getInt('perPage', 4) /* limit per page */
+            $request->query->getInt('perPage', 12) /* limit per page */
         );
 
         return $this->render('pokemon/index.html.twig', ['pagination' => $pagination]);
