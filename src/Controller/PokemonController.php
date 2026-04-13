@@ -30,26 +30,13 @@ final class PokemonController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /* page number */
-            $request->query->getInt('perPage', 12) /* limit per page */
+            $request->query->getInt('perPage', 4) /* limit per page */
         );
 
         return $this->render('pokemon/index.html.twig', [
             'pagination'    => $pagination,
             'searchName'    => $strSearchName //< Renvoi à la vue pour l'afficher dans le champ
         ]);
-
-        /*
-        $intPage = $request->query->get('page', 1);
-
-        $arrPokemon = $pokemonRepository->findPagination(4, $intPage);
-
-        dd($arrPokemon);
-
-        return $this->render('pokemon/index.html.twig', [
-            'pokemonList'   => $arrPokemon,
-            'currentPage'   => $intPage,
-        ]);
-        */
     }
 
     #[Route('/create', name: 'create')]
@@ -128,5 +115,18 @@ final class PokemonController extends AbstractController
         return $this->render('pokemon/form.html.twig', [
             'createForm'    => $updateForm
         ]);
+    }
+
+    #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])] //< URL : /pokemon/1/delete
+    #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
+    #[IsGranted('POKEMON_DELETE', subject: 'pokemon', message: "Droit insuffisant pour la suppression")]
+    public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        // DELETE .... FROM .... WHERE...
+        $entityManager->remove($pokemon);
+        $entityManager->flush();
+
+        // Lorsque la suppresion est faite, on retourne à la liste
+        return $this->redirectToRoute('app_pokemon_index');
     }
 }

@@ -68,7 +68,7 @@ class PokemonRepository extends ServiceEntityRepository
             ->orderBy('p.number', 'ASC');
 
         if($name) {
-            $queryBuilder->where('p.name LIKE :name')
+            $queryBuilder->where('LOWER (p.name) LIKE LOWER(:name)')
                 ->setParameter('name', '%' . $name . '%');
         }
 
