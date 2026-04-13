@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Pokemon;
 use App\Entity\PokemonType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -28,12 +29,13 @@ class PokemonRepository extends ServiceEntityRepository
             ->orWhere('t.name = :type')            //< On utilise l'alias t dans le filtre
             ->setParameter('type', $type);
 
-            if($secondary){
-                $queryBuilder->orWhere('t.name = :type2')
+        if($secondary) {
+
+            $queryBuilder->orWhere('t.name = :type2')
                 ->setParameter('type2', $secondary)
                 ->groupBy('p.id')
-                ->having('COUNT(DISTINCT(t.id) = 2');
-            }
+                ->having('COUNT(DISTINCT(t.id)) = 2'); //< Filtrer les pokémon qui ont strictement 2 types
+        }
 
         // Retourne les résultats
         return $queryBuilder->getQuery()->getResult();
@@ -57,11 +59,14 @@ class PokemonRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-
-
-
-
-
+    /**
+     * Construire le QueryBuilder qui sera utilisé pour la pagination
+     */
+    public function createPaginationQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.number', 'ASC');
+    }
 
     public function findPagination(int $number, int $page = 1): array
     {
